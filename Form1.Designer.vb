@@ -82,7 +82,7 @@ Partial Class Form1
         Me.DataGridView1.Location = New System.Drawing.Point(295, 10)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowTemplate.Height = 25
-        Me.DataGridView1.Size = New System.Drawing.Size(884, 329)
+        Me.DataGridView1.Size = New System.Drawing.Size(1061, 329)
         Me.DataGridView1.TabIndex = 6
         '
         'CheckBoxCarrera
@@ -118,7 +118,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1190, 390)
+        Me.ClientSize = New System.Drawing.Size(1368, 390)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CheckBoxDocente)
         Me.Controls.Add(Me.CheckBoxCarrera)

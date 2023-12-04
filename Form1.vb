@@ -462,6 +462,29 @@ Private Sub EjecutarConsultaSQL1(cicloLectivo As Integer, moduloId As Integer)
         End Try
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim docente, nombre_abr, numdoc, carrera As String
+        Try
+            If DataGridView1.Rows.Count > 0 Then
+                Dim indice As Integer = DataGridView1.CurrentRow.Index
+                docente = DataGridView1.Rows(indice).Cells(1).Value
+                nombre_abr = DataGridView1.Rows(indice).Cells(8).Value
+                numdoc = DataGridView1.Rows(indice).Cells(9).Value
+                carrera = DataGridView1.Rows(indice).Cells(2).Value
+                Form3.DataGridView1.Rows.Add(docente)
+
+
+            Else
+                MsgBox("Por favor seleccionar un docente")
+            End If
+
+        Catch ex As Exception
+
+        End Try
+        Form3.Show()
+
+    End Sub
+
 
 End Class
 
