@@ -9,9 +9,9 @@ Dim dataTable As DataTable
 Dim dataAdapter As SqlDataAdapter
 
 Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
+        CN = New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
 
-    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
+        DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
         .HeaderText = "Seleccione",
         .Name = "ColumnaCheckBox",
         .TrueValue = True,
@@ -462,7 +462,26 @@ Private Sub EjecutarConsultaSQL1(cicloLectivo As Integer, moduloId As Integer)
         End Try
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Form3.Show()
+        Dim docente As String
+        Try
+            If DataGridView1.Rows.Count > 0 Then
+                'If DataGridView1.SelectedRows.Count > 0 Then
+                'Dim indice As Integer = DataGridView1.CurrentRow.Index
+                For i = 0 To DataGridView1.Rows.Count - 1
+                    docente = DataGridView1.Rows(i).Cells(1).Value
+                    Form3.DataGridView1.Rows.Add(docente)
+                Next
+                MsgBox(docente)
 
+            Else
+                MsgBox("Seleccione docente")
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class
 
 
