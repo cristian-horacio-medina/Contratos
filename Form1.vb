@@ -9,9 +9,9 @@ Dim dataTable As DataTable
 Dim dataAdapter As SqlDataAdapter
 
 Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
+        CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
 
-    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
+        DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
         .HeaderText = "Seleccione",
         .Name = "ColumnaCheckBox",
         .TrueValue = True,
