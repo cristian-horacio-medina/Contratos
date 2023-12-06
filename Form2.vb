@@ -2,7 +2,7 @@
 Imports Microsoft.Reporting.WinForms
 Public Class Form2
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim conn As New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
+        Dim conn As New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
         Dim dt As New DataTable
         Dim cmdConsulta2 As New SqlCommand("Select Descripcion, Abreviatura FROM Al_turnos", conn)
         Dim da As New SqlDataAdapter(cmdConsulta2)
