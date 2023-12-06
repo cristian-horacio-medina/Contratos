@@ -11,17 +11,17 @@ Dim dataAdapter As SqlDataAdapter
 Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CN = New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
 
-        DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
-        .HeaderText = "Seleccione",
-        .Name = "ColumnaCheckBox",
-        .TrueValue = True,
-        .FalseValue = False
-    }) ' Columna de CheckBox
+        '    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
+        '    .HeaderText = "Seleccione",
+        '    .Name = "ColumnaCheckBox",
+        '    .TrueValue = True,
+        '    .FalseValue = False
+        '}) ' Columna de CheckBox
 
 
-    ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
+        ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
 
-    LlenarCombobox(cboCicloLectivo, "SELECT DISTINCT Descripcion FROM AL_CICLOS_LECTIVOS where Descripcion > 2022")
+        LlenarCombobox(cboCicloLectivo, "SELECT DISTINCT Descripcion FROM AL_CICLOS_LECTIVOS where Descripcion > 2022")
 
     ' Llena el ComboBox con datos de la tabla al_carreras (carrera_id)
     LlenarCboCarrera(cboCarrera, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
@@ -462,26 +462,52 @@ Private Sub EjecutarConsultaSQL1(cicloLectivo As Integer, moduloId As Integer)
         End Try
     End Sub
 
+
+
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Form3.Show()
-        Dim docente As String
-        Try
-            If DataGridView1.Rows.Count > 0 Then
-                'If DataGridView1.SelectedRows.Count > 0 Then
-                'Dim indice As Integer = DataGridView1.CurrentRow.Index
-                For i = 0 To DataGridView1.Rows.Count - 1
-                    docente = DataGridView1.Rows(i).Cells(1).Value
-                    Form3.DataGridView1.Rows.Add(docente)
-                Next
-                MsgBox(docente)
 
-            Else
-                MsgBox("Seleccione docente")
+        Try
+            For Each row As DataGridViewRow In DataGridView1.SelectedRows
+                Dim docente As String = row.Cells(0).Value.ToString()
+                Dim carrera As String = row.Cells(1).Value.ToString()
+                ' Crear una nueva fila con los valores de docente y carrera
+                Dim newRow As String() = {docente, carrera}
+                Form3.DataGridView1.Rows.Add(newRow)
+            Next
+
+            ' Verificar si no se seleccionaron filas
+            If DataGridView1.SelectedRows.Count = 0 Then
+                MsgBox("Seleccione al menos una fila")
             End If
         Catch ex As Exception
-
+            ' Manejar cualquier excepción que pueda ocurrir
         End Try
     End Sub
+
+
+
+    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    '    Form3.Show()
+    '    Dim docente As String
+    '    Try
+    '        'If DataGridView1.Rows.Count > 0 Then
+    '        If DataGridView1.SelectedRows.Count > 0 Then
+    '            Dim indice As Integer = DataGridView1.CurrentRow.Index
+    '            For i = 0 To DataGridView1.Rows.Count - 1
+    '                docente = DataGridView1.Rows(i).Cells(1).Value
+    '                Form3.DataGridView1.Rows.Add(docente)
+    '            Next
+    '            'MsgBox(docente)
+
+    '        Else
+    '            MsgBox("Seleccione docente")
+    '        End If
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
 End Class
 
 

@@ -25,6 +25,9 @@ Partial Class Form3
         Me.ReportViewer1 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.docente = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.carrera = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.anio = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.horario = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -39,9 +42,10 @@ Partial Class Form3
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.docente})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.docente, Me.carrera, Me.anio, Me.horario})
         Me.DataGridView1.Location = New System.Drawing.Point(13, 12)
         Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(774, 207)
         Me.DataGridView1.TabIndex = 1
         '
@@ -49,6 +53,21 @@ Partial Class Form3
         '
         Me.docente.HeaderText = "docente"
         Me.docente.Name = "docente"
+        '
+        'carrera
+        '
+        Me.carrera.HeaderText = "carrera"
+        Me.carrera.Name = "carrera"
+        '
+        'anio
+        '
+        Me.anio.HeaderText = "año"
+        Me.anio.Name = "anio"
+        '
+        'horario
+        '
+        Me.horario.HeaderText = "horario"
+        Me.horario.Name = "horario"
         '
         'Form3
         '
@@ -67,4 +86,7 @@ Partial Class Form3
     Friend WithEvents ReportViewer1 As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents docente As DataGridViewTextBoxColumn
+    Friend WithEvents carrera As DataGridViewTextBoxColumn
+    Friend WithEvents anio As DataGridViewTextBoxColumn
+    Friend WithEvents horario As DataGridViewTextBoxColumn
 End Class

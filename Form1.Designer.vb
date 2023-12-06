@@ -82,6 +82,7 @@ Partial Class Form1
         Me.DataGridView1.Location = New System.Drawing.Point(295, 10)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowTemplate.Height = 25
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(884, 329)
         Me.DataGridView1.TabIndex = 6
         '
