@@ -8,19 +8,9 @@ Public Class Form1
     Dim dataTable As DataTable
     Dim dataAdapter As SqlDataAdapter
 
-<<<<<<< HEAD
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
-
-        DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
-        .HeaderText = "Seleccione",
-        .Name = "ColumnaCheckBox",
-        .TrueValue = True,
-        .FalseValue = False
-    }) ' Columna de CheckBox
-=======
-Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        CN = New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
 
         '    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
         '    .HeaderText = "Seleccione",
@@ -28,7 +18,6 @@ Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '    .TrueValue = True,
         '    .FalseValue = False
         '}) ' Columna de CheckBox
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
 
 
         ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
@@ -474,39 +463,23 @@ Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         End Try
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Form3.Show()
-        Dim docente As String
-        Try
-            If DataGridView1.Rows.Count > 0 Then
-                'If DataGridView1.SelectedRows.Count > 0 Then
-                'Dim indice As Integer = DataGridView1.CurrentRow.Index
-                For i = 0 To DataGridView1.Rows.Count - 1
-                    docente = DataGridView1.Rows(i).Cells(1).Value
-                    Form3.DataGridView1.Rows.Add(docente)
-                Next
-                MsgBox("Listo")
-
-<<<<<<< HEAD
-            Else
-                MsgBox("Seleccione docente")
-            End If
-        Catch ex As Exception
-
-        End Try
-    End Sub
-=======
-
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+ Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Form3.Show()
 
         Try
             For Each row As DataGridViewRow In DataGridView1.SelectedRows
                 Dim docente As String = row.Cells(0).Value.ToString()
                 Dim carrera As String = row.Cells(1).Value.ToString()
+                Dim horario As String = row.Cells(2).Value.ToString()
+                Dim anio As String = row.Cells(3).Value.ToString()
+                Dim division As String = row.Cells(4).Value.ToString()
+                Dim materia As String = row.Cells(5).Value.ToString()
+                Dim dia As String = row.Cells(6).Value.ToString()
+                Dim nombre_abr As String = row.Cells(7).Value.ToString()
+                Dim numdoc As String = row.Cells(8).Value.ToString()
+                Dim sexo As String = row.Cells(9).Value.ToString()
                 ' Crear una nueva fila con los valores de docente y carrera
-                Dim newRow As String() = {docente, carrera}
+                Dim newRow As String() = {docente, carrera, horario, anio, division, materia, dia, nombre_abr, numdoc, sexo}
                 Form3.DataGridView1.Rows.Add(newRow)
             Next
 
@@ -541,7 +514,7 @@ Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     '    End Try
     'End Sub
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+    Public Shared Property SelectedRows As Object
 End Class
 
 

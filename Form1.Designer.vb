@@ -79,15 +79,11 @@ Partial Class Form1
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(295, 10)
+        Me.DataGridView1.Location = New System.Drawing.Point(287, 10)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowTemplate.Height = 25
-<<<<<<< HEAD
-        Me.DataGridView1.Size = New System.Drawing.Size(1061, 329)
-=======
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(884, 329)
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+        Me.DataGridView1.Size = New System.Drawing.Size(1069, 329)
         Me.DataGridView1.TabIndex = 6
         '
         'CheckBoxCarrera

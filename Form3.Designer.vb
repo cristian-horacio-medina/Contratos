@@ -2,8 +2,7 @@
 Partial Class Form3
     Inherits System.Windows.Forms.Form
 
-    'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -24,46 +23,36 @@ Partial Class Form3
     Private Sub InitializeComponent()
         Me.ReportViewer1 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-<<<<<<< HEAD
-=======
         Me.docente = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.carrera = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.anio = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.horario = New System.Windows.Forms.DataGridViewTextBoxColumn()
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+        Me.anio = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.división = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.materia = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.nombredia = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.monbre_abr = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.número_dni = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.sexo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ReportViewer1
         '
-<<<<<<< HEAD
-        Me.ReportViewer1.Location = New System.Drawing.Point(12, 179)
-        Me.ReportViewer1.Name = "ReportViewer1"
-        Me.ReportViewer1.ServerReport.BearerToken = Nothing
-        Me.ReportViewer1.Size = New System.Drawing.Size(776, 246)
-=======
+        Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "Contratos.Report2.rdlc"
         Me.ReportViewer1.Location = New System.Drawing.Point(12, 230)
         Me.ReportViewer1.Name = "ReportViewer1"
         Me.ReportViewer1.ServerReport.BearerToken = Nothing
-        Me.ReportViewer1.Size = New System.Drawing.Size(776, 208)
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+        Me.ReportViewer1.Size = New System.Drawing.Size(1071, 208)
         Me.ReportViewer1.TabIndex = 0
         '
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-<<<<<<< HEAD
-        Me.DataGridView1.Location = New System.Drawing.Point(13, 8)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(774, 161)
-        Me.DataGridView1.TabIndex = 1
-        '
-=======
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.docente, Me.carrera, Me.anio, Me.horario})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.docente, Me.carrera, Me.horario, Me.anio, Me.división, Me.materia, Me.nombredia, Me.monbre_abr, Me.número_dni, Me.sexo})
         Me.DataGridView1.Location = New System.Drawing.Point(13, 12)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(774, 207)
+        Me.DataGridView1.Size = New System.Drawing.Size(1071, 207)
         Me.DataGridView1.TabIndex = 1
         '
         'docente
@@ -76,22 +65,51 @@ Partial Class Form3
         Me.carrera.HeaderText = "carrera"
         Me.carrera.Name = "carrera"
         '
-        'anio
-        '
-        Me.anio.HeaderText = "año"
-        Me.anio.Name = "anio"
-        '
         'horario
         '
         Me.horario.HeaderText = "horario"
         Me.horario.Name = "horario"
         '
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+        'anio
+        '
+        Me.anio.HeaderText = "año"
+        Me.anio.Name = "anio"
+        '
+        'división
+        '
+        Me.división.HeaderText = "división"
+        Me.división.Name = "división"
+        '
+        'materia
+        '
+        Me.materia.HeaderText = "materia"
+        Me.materia.Name = "materia"
+        '
+        'nombredia
+        '
+        Me.nombredia.HeaderText = "día"
+        Me.nombredia.Name = "nombredia"
+        '
+        'monbre_abr
+        '
+        Me.monbre_abr.HeaderText = "tipo_doc"
+        Me.monbre_abr.Name = "monbre_abr"
+        '
+        'número_dni
+        '
+        Me.número_dni.HeaderText = "DNI"
+        Me.número_dni.Name = "número_dni"
+        '
+        'sexo
+        '
+        Me.sexo.HeaderText = "sexo"
+        Me.sexo.Name = "sexo"
+        '
         'Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(1095, 450)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.ReportViewer1)
         Me.Name = "Form3"
@@ -103,11 +121,14 @@ Partial Class Form3
 
     Friend WithEvents ReportViewer1 As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents DataGridView1 As DataGridView
-<<<<<<< HEAD
-=======
     Friend WithEvents docente As DataGridViewTextBoxColumn
     Friend WithEvents carrera As DataGridViewTextBoxColumn
-    Friend WithEvents anio As DataGridViewTextBoxColumn
     Friend WithEvents horario As DataGridViewTextBoxColumn
->>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
+    Friend WithEvents anio As DataGridViewTextBoxColumn
+    Friend WithEvents división As DataGridViewTextBoxColumn
+    Friend WithEvents materia As DataGridViewTextBoxColumn
+    Friend WithEvents nombredia As DataGridViewTextBoxColumn
+    Friend WithEvents monbre_abr As DataGridViewTextBoxColumn
+    Friend WithEvents número_dni As DataGridViewTextBoxColumn
+    Friend WithEvents sexo As DataGridViewTextBoxColumn
 End Class
