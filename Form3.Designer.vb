@@ -24,25 +24,69 @@ Partial Class Form3
     Private Sub InitializeComponent()
         Me.ReportViewer1 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+<<<<<<< HEAD
+=======
+        Me.docente = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.carrera = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.anio = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.horario = New System.Windows.Forms.DataGridViewTextBoxColumn()
+>>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ReportViewer1
         '
+<<<<<<< HEAD
         Me.ReportViewer1.Location = New System.Drawing.Point(12, 179)
         Me.ReportViewer1.Name = "ReportViewer1"
         Me.ReportViewer1.ServerReport.BearerToken = Nothing
         Me.ReportViewer1.Size = New System.Drawing.Size(776, 246)
+=======
+        Me.ReportViewer1.Location = New System.Drawing.Point(12, 230)
+        Me.ReportViewer1.Name = "ReportViewer1"
+        Me.ReportViewer1.ServerReport.BearerToken = Nothing
+        Me.ReportViewer1.Size = New System.Drawing.Size(776, 208)
+>>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
         Me.ReportViewer1.TabIndex = 0
         '
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+<<<<<<< HEAD
         Me.DataGridView1.Location = New System.Drawing.Point(13, 8)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.Size = New System.Drawing.Size(774, 161)
         Me.DataGridView1.TabIndex = 1
         '
+=======
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.docente, Me.carrera, Me.anio, Me.horario})
+        Me.DataGridView1.Location = New System.Drawing.Point(13, 12)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(774, 207)
+        Me.DataGridView1.TabIndex = 1
+        '
+        'docente
+        '
+        Me.docente.HeaderText = "docente"
+        Me.docente.Name = "docente"
+        '
+        'carrera
+        '
+        Me.carrera.HeaderText = "carrera"
+        Me.carrera.Name = "carrera"
+        '
+        'anio
+        '
+        Me.anio.HeaderText = "año"
+        Me.anio.Name = "anio"
+        '
+        'horario
+        '
+        Me.horario.HeaderText = "horario"
+        Me.horario.Name = "horario"
+        '
+>>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
         'Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -59,4 +103,11 @@ Partial Class Form3
 
     Friend WithEvents ReportViewer1 As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents DataGridView1 As DataGridView
+<<<<<<< HEAD
+=======
+    Friend WithEvents docente As DataGridViewTextBoxColumn
+    Friend WithEvents carrera As DataGridViewTextBoxColumn
+    Friend WithEvents anio As DataGridViewTextBoxColumn
+    Friend WithEvents horario As DataGridViewTextBoxColumn
+>>>>>>> 28d3ae34f781bbcfa27d4d8d7b94aad872d7c5ee
 End Class
