@@ -33,6 +33,7 @@ Public Class Form1
         CboModuloId.Items.Add("1er Cuatrimestre")
         CboModuloId.Items.Add("2do Cuatrimestre")
         CboModuloId.SelectedIndex = 0
+        Form3.ReportViewer1.RefreshReport()
     End Sub
     Private Sub LlenarCboCarrera(combobox As ComboBox, consulta As String)
         Try
@@ -463,8 +464,8 @@ Public Class Form1
         End Try
     End Sub
 
- Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Form3.Show()
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
 
         Try
             For Each row As DataGridViewRow In DataGridView1.SelectedRows
@@ -490,32 +491,76 @@ Public Class Form1
         Catch ex As Exception
             ' Manejar cualquier excepción que pueda ocurrir
         End Try
+
+        ' Verificar si se seleccionaron filas
+        If DataGridView1.SelectedRows.Count > 0 Then
+            Dim dataTable As New DataTable("DatosReporte")
+
+            ' Agregar columnas al DataTable
+            dataTable.Columns.Add("docente")
+            dataTable.Columns.Add("carrera")
+            dataTable.Columns.Add("horario")
+            dataTable.Columns.Add("anio")
+            dataTable.Columns.Add("division")
+            dataTable.Columns.Add("materia")
+            dataTable.Columns.Add("dia")
+            dataTable.Columns.Add("nombre_abr")
+            dataTable.Columns.Add("numdoc")
+            dataTable.Columns.Add("sexo")
+
+            ' Agregar el resto de columnas según sea necesario...
+
+            ' Llenar el DataTable con los datos del DataGridView
+            For Each row As DataGridViewRow In DataGridView1.SelectedRows
+                Dim newRow As DataRow = dataTable.NewRow()
+                newRow("docente") = row.Cells(0).Value.ToString()
+                newRow("carrera") = row.Cells(1).Value.ToString()
+                newRow("horario") = row.Cells(2).Value.ToString()
+                newRow("anio") = row.Cells(3).Value.ToString()
+                newRow("division") = row.Cells(4).Value.ToString()
+                newRow("materia") = row.Cells(5).Value.ToString()
+                newRow("dia") = row.Cells(6).Value.ToString()
+                newRow("nombre_abr") = row.Cells(7).Value.ToString()
+                newRow("numdoc") = row.Cells(8).Value.ToString()
+                newRow("sexo") = row.Cells(9).Value.ToString()
+
+
+                ' Agregar el resto de columnas según la configuración del informe...
+
+                dataTable.Rows.Add(newRow)
+            Next
+
+            ' Crear un nuevo informe y asignar los datos
+            Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
+            reporte.ReportPath = "C:\Users\Cristian\source\repos\Contratos\Informe.rdlc" ' Ruta de tu informe
+
+            ' Asignar el DataTable como origen de datos para el informe
+            reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+            ' Asignar el informe al ReportViewer
+            Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
+            Form3.ReportViewer1.LocalReport.DataSources.Clear()
+            Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+            ' Refrescar el ReportViewer
+            Form3.ReportViewer1.RefreshReport()
+
+            ' Mostrar el formulario con el ReportViewer
+            Form3.Show()
+        Else
+            MsgBox("Seleccione al menos una fila")
+        End If
+
+
     End Sub
 
+    Public Shared Property Rows As Object
 
-
-    'Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-    '    Form3.Show()
-    '    Dim docente As String
-    '    Try
-    '        'If DataGridView1.Rows.Count > 0 Then
-    '        If DataGridView1.SelectedRows.Count > 0 Then
-    '            Dim indice As Integer = DataGridView1.CurrentRow.Index
-    '            For i = 0 To DataGridView1.Rows.Count - 1
-    '                docente = DataGridView1.Rows(i).Cells(1).Value
-    '                Form3.DataGridView1.Rows.Add(docente)
-    '            Next
-    '            'MsgBox(docente)
-
-    '        Else
-    '            MsgBox("Seleccione docente")
-    '        End If
-    '    Catch ex As Exception
-
-    '    End Try
-    'End Sub
-    Public Shared Property SelectedRows As Object
 End Class
+
+
+
+
 
 
 'Este va en el Contratos_docentes (doble click en el proyecto)<TargetFramework>net8.0-windows7.0</TargetFramework>

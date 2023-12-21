@@ -33,12 +33,14 @@ Partial Class Form3
         Me.monbre_abr = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.número_dni = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.sexo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataSet1 = New System.Data.DataSet()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ReportViewer1
         '
-        Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "Contratos.Report2.rdlc"
+        Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "Contratos.Informe.rdlc"
         Me.ReportViewer1.Location = New System.Drawing.Point(12, 230)
         Me.ReportViewer1.Name = "ReportViewer1"
         Me.ReportViewer1.ServerReport.BearerToken = Nothing
@@ -105,6 +107,10 @@ Partial Class Form3
         Me.sexo.HeaderText = "sexo"
         Me.sexo.Name = "sexo"
         '
+        'DataSet1
+        '
+        Me.DataSet1.DataSetName = "NewDataSet"
+        '
         'Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -115,6 +121,7 @@ Partial Class Form3
         Me.Name = "Form3"
         Me.Text = "Reporte"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -131,4 +138,5 @@ Partial Class Form3
     Friend WithEvents monbre_abr As DataGridViewTextBoxColumn
     Friend WithEvents número_dni As DataGridViewTextBoxColumn
     Friend WithEvents sexo As DataGridViewTextBoxColumn
+    Friend WithEvents DataSet1 As DataSet
 End Class
