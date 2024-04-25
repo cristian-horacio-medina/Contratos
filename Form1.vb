@@ -10,7 +10,7 @@ Public Class Form1
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql3")
+        CN = New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
 
         '    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
         '    .HeaderText = "Seleccione",
@@ -94,9 +94,6 @@ Public Class Form1
             CN.Close()
         End Try
     End Sub
-
-
-
 
     Private Sub LlenarCombobox(combobox As ComboBox, consulta As String)
         Try
@@ -286,7 +283,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-    al_docentes.combo,
+     al_docentes.combo,
     al_carreras.Nombrecompleto,
     al_horarios.combo,
     al_comisiones.anio,
@@ -355,7 +352,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-    al_docentes.combo,
+     al_docentes.combo,
     al_carreras.Nombrecompleto,
     al_horarios.combo,
     al_comisiones.anio,
@@ -424,7 +421,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-    al_docentes.combo,
+     al_docentes.combo,
     al_carreras.Nombrecompleto,
     al_horarios.combo,
     al_comisiones.anio,
@@ -462,103 +459,108 @@ Public Class Form1
             ' Cerrar la conexión después de usarla
             CN.Close()
         End Try
+
+
+
+
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        ' Crear un DataTable para almacenar los datos de las filas seleccionadas
+        Dim dataTable As New DataTable("DatosReporte")
 
+        ' Agregar columnas al DataTable
+        dataTable.Columns.Add("docente")
+        dataTable.Columns.Add("carrera")
+        dataTable.Columns.Add("horario")
+        dataTable.Columns.Add("anio")
+        dataTable.Columns.Add("division")
+        dataTable.Columns.Add("materia")
+        dataTable.Columns.Add("dia")
+        dataTable.Columns.Add("nombre_abr")
+        dataTable.Columns.Add("numdoc")
+        dataTable.Columns.Add("sexo")
 
         Try
-            For Each row As DataGridViewRow In DataGridView1.SelectedRows
-                Dim docente As String = row.Cells(0).Value.ToString()
-                Dim carrera As String = row.Cells(1).Value.ToString()
-                Dim horario As String = row.Cells(2).Value.ToString()
-                Dim anio As String = row.Cells(3).Value.ToString()
-                Dim division As String = row.Cells(4).Value.ToString()
-                Dim materia As String = row.Cells(5).Value.ToString()
-                Dim dia As String = row.Cells(6).Value.ToString()
-                Dim nombre_abr As String = row.Cells(7).Value.ToString()
-                Dim numdoc As String = row.Cells(8).Value.ToString()
-                Dim sexo As String = row.Cells(9).Value.ToString()
-                ' Crear una nueva fila con los valores de docente y carrera
-                Dim newRow As String() = {docente, carrera, horario, anio, division, materia, dia, nombre_abr, numdoc, sexo}
-                Form3.DataGridView1.Rows.Add(newRow)
-            Next
+            ' Verificar si se seleccionaron filas
+            If DataGridView1.SelectedRows.Count > 0 Then
+                For Each row As DataGridViewRow In DataGridView1.SelectedRows
+                    ' Obtener los valores de las celdas y agregar una nueva fila al DataTable
+                    Dim newRow As DataRow = dataTable.NewRow()
+                    newRow("docente") = row.Cells(0).Value.ToString()
+                    newRow("carrera") = row.Cells(1).Value.ToString()
+                    newRow("horario") = row.Cells(2).Value.ToString()
+                    newRow("anio") = row.Cells(3).Value.ToString()
+                    newRow("division") = row.Cells(4).Value.ToString()
+                    newRow("materia") = row.Cells(5).Value.ToString()
+                    newRow("dia") = row.Cells(6).Value.ToString()
+                    newRow("nombre_abr") = row.Cells(7).Value.ToString()
+                    newRow("numdoc") = row.Cells(8).Value.ToString()
+                    newRow("sexo") = row.Cells(9).Value.ToString()
 
-            ' Verificar si no se seleccionaron filas
-            If DataGridView1.SelectedRows.Count = 0 Then
+                    ' Agregar el resto de los valores de las celdas al newRow según las columnas definidas
+
+                    ' Agregar newRow al DataTable
+                    dataTable.Rows.Add(newRow)
+                Next
+
+                ' Crear un nuevo informe y asignar los datos
+                Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
+                reporte.ReportPath = "C:\Users\Papá\source\repos\cristian-horacio-medina\Contratos\Informe.rdlc"
+
+                ' Asignar el DataTable como origen de datos para el informe
+                reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+                ' Asignar el informe al ReportViewer en Form3
+                Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
+                Form3.ReportViewer1.LocalReport.DataSources.Clear()
+                Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+                ' Refrescar el ReportViewer
+                Form3.ReportViewer1.RefreshReport()
+
+                ' Mostrar el formulario con el ReportViewer
+                Form3.Show()
+            Else
                 MsgBox("Seleccione al menos una fila")
             End If
+
+            ' Mostrar el formulario con el ReportViewer
+            Form3.Show()
+
+            ' Agregar los datos al DataGridView en Form3 después de mostrar el formulario
+            Form3.AgregarDatosAlDataGridView(dataTable)
         Catch ex As Exception
             ' Manejar cualquier excepción que pueda ocurrir
         End Try
 
-        ' Verificar si se seleccionaron filas
-        If DataGridView1.SelectedRows.Count > 0 Then
-            Dim dataTable As New DataTable("DatosReporte")
 
-            ' Agregar columnas al DataTable
-            dataTable.Columns.Add("docente")
-            dataTable.Columns.Add("carrera")
-            dataTable.Columns.Add("horario")
-            dataTable.Columns.Add("anio")
-            dataTable.Columns.Add("division")
-            dataTable.Columns.Add("materia")
-            dataTable.Columns.Add("dia")
-            dataTable.Columns.Add("nombre_abr")
-            dataTable.Columns.Add("numdoc")
-            dataTable.Columns.Add("sexo")
-
-            ' Agregar el resto de columnas según sea necesario...
-
-            ' Llenar el DataTable con los datos del DataGridView
-            For Each row As DataGridViewRow In DataGridView1.SelectedRows
-                Dim newRow As DataRow = dataTable.NewRow()
-                newRow("docente") = row.Cells(0).Value.ToString()
-                newRow("carrera") = row.Cells(1).Value.ToString()
-                newRow("horario") = row.Cells(2).Value.ToString()
-                newRow("anio") = row.Cells(3).Value.ToString()
-                newRow("division") = row.Cells(4).Value.ToString()
-                newRow("materia") = row.Cells(5).Value.ToString()
-                newRow("dia") = row.Cells(6).Value.ToString()
-                newRow("nombre_abr") = row.Cells(7).Value.ToString()
-                newRow("numdoc") = row.Cells(8).Value.ToString()
-                newRow("sexo") = row.Cells(9).Value.ToString()
-
-
-                ' Agregar el resto de columnas según la configuración del informe...
-
-                dataTable.Rows.Add(newRow)
-            Next
-
-            ' Crear un nuevo informe y asignar los datos
-            Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
-            reporte.ReportPath = "C:\Users\Cristian\source\repos\Contratos\Informe.rdlc" ' Ruta de tu informe
-
-            ' Asignar el DataTable como origen de datos para el informe
-            reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-            ' Asignar el informe al ReportViewer
-            Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
-            Form3.ReportViewer1.LocalReport.DataSources.Clear()
-            Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-            ' Refrescar el ReportViewer
-            Form3.ReportViewer1.RefreshReport()
-
-            ' Mostrar el formulario con el ReportViewer
-            Form3.Show()
-        Else
-            MsgBox("Seleccione al menos una fila")
-        End If
 
 
     End Sub
 
+
     Public Shared Property Rows As Object
+
+    Public Shared Property SelectedRows As Object
 
 End Class
 
+Public Class DatosReporte
 
+    Public Property docente As String
+    Public Property carrera As String
+    Public Property horario As String
+    Public Property anio As String
+    Public Property division As String
+    Public Property materia As String
+    Public Property dia As String
+    Public Property nombre_abr As String
+    Public Property numdoc As String
+    Public Property sexo As String
+
+End Class
 
 
 
