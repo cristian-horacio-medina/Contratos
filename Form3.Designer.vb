@@ -71,9 +71,9 @@ Partial Class Form3
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.Location = New System.Drawing.Point(135, 275)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(51, 15)
+        Me.Label1.Size = New System.Drawing.Size(46, 15)
         Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Comisión"
+        Me.Label1.Text = "División"
         '
         'Label2
         '
@@ -108,21 +108,21 @@ Partial Class Form3
         '
         Me.Label4.AutoSize = True
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label4.Location = New System.Drawing.Point(416, 251)
+        Me.Label4.Location = New System.Drawing.Point(390, 247)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(41, 15)
+        Me.Label4.Size = New System.Drawing.Size(80, 15)
         Me.Label4.TabIndex = 8
-        Me.Label4.Text = "Label4"
+        Me.Label4.Text = "División orginal"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label5.Location = New System.Drawing.Point(416, 280)
+        Me.Label5.Location = New System.Drawing.Point(390, 275)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(41, 15)
+        Me.Label5.Size = New System.Drawing.Size(98, 15)
         Me.Label5.TabIndex = 9
-        Me.Label5.Text = "Label5"
+        Me.Label5.Text = "Comisio_ID original"
         '
         'Label6
         '
@@ -130,9 +130,9 @@ Partial Class Form3
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Location = New System.Drawing.Point(648, 251)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(41, 15)
+        Me.Label6.Size = New System.Drawing.Size(57, 15)
         Me.Label6.TabIndex = 10
-        Me.Label6.Text = "Label6"
+        Me.Label6.Text = "Resultado"
         '
         'Form3
         '

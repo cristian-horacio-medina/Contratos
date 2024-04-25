@@ -7,18 +7,15 @@ Public Class Form1
     Dim CN As SqlConnection
     Dim dataTable As DataTable
     Dim dataAdapter As SqlDataAdapter
+    Dim añoActual As Integer = DateTime.Now.Year
+
 
 
     Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Label2.Text = añoActual
+
         CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05")
-
-        '    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
-        '    .HeaderText = "Seleccione",
-        '    .Name = "ColumnaCheckBox",
-        '    .TrueValue = True,
-        '    .FalseValue = False
-        '}) ' Columna de CheckBox
-
 
         ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
 
@@ -33,7 +30,7 @@ Public Class Form1
         CboModuloId.Items.Add("1er Cuatrimestre")
         CboModuloId.Items.Add("2do Cuatrimestre")
         CboModuloId.SelectedIndex = 0
-        'Form3.ReportViewer1.RefreshReport()
+
     End Sub
     Private Sub LlenarCboCarrera(combobox As ComboBox, consulta As String)
         Try
@@ -160,7 +157,9 @@ Public Class Form1
         ' Obtener los valores seleccionados en los ComboBoxes
         If CheckBoxDocente.Checked Then
             cboDocente.Text = ""
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+
+            Dim cicloLectivo As String = añoActual
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
             Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
             'Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
@@ -169,7 +168,8 @@ Public Class Form1
 
         ElseIf CheckBoxCarrera.Checked Then
             cboCarrera.Text = ""
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+            Dim cicloLectivo As String = añoActual
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
             Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
@@ -177,8 +177,8 @@ Public Class Form1
 
 
         Else
-
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+            Dim cicloLectivo As String = añoActual
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
             Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
             Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")

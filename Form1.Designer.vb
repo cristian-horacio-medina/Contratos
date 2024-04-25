@@ -31,6 +31,8 @@ Partial Class Form1
         Me.CheckBoxCarrera = New System.Windows.Forms.CheckBox()
         Me.CheckBoxDocente = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -54,10 +56,11 @@ Partial Class Form1
         'cboCicloLectivo
         '
         Me.cboCicloLectivo.FormattingEnabled = True
-        Me.cboCicloLectivo.Location = New System.Drawing.Point(9, 36)
+        Me.cboCicloLectivo.Location = New System.Drawing.Point(9, 267)
         Me.cboCicloLectivo.Name = "cboCicloLectivo"
         Me.cboCicloLectivo.Size = New System.Drawing.Size(192, 21)
         Me.cboCicloLectivo.TabIndex = 3
+        Me.cboCicloLectivo.Visible = False
         '
         'cboDocente
         '
@@ -115,11 +118,35 @@ Partial Class Form1
         Me.Button1.Text = "Seleccionados"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(9, 34)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(89, 19)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "Ciclo Lectivo"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(111, 34)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(120, 19)
+        Me.Label2.TabIndex = 11
+        Me.Label2.Text = "                      "
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1368, 390)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CheckBoxDocente)
         Me.Controls.Add(Me.CheckBoxCarrera)
@@ -146,4 +173,6 @@ Partial Class Form1
     Friend WithEvents CheckBoxCarrera As CheckBox
     Friend WithEvents CheckBoxDocente As CheckBox
     Friend WithEvents Button1 As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
 End Class
