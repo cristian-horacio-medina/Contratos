@@ -38,7 +38,7 @@ Partial Class Form1
         '
         'BtnConsultar
         '
-        Me.BtnConsultar.Location = New System.Drawing.Point(795, 350)
+        Me.BtnConsultar.Location = New System.Drawing.Point(780, 417)
         Me.BtnConsultar.Name = "BtnConsultar"
         Me.BtnConsultar.Size = New System.Drawing.Size(85, 29)
         Me.BtnConsultar.TabIndex = 0
@@ -82,11 +82,11 @@ Partial Class Form1
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(287, 10)
+        Me.DataGridView1.Location = New System.Drawing.Point(308, 10)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowTemplate.Height = 25
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1069, 329)
+        Me.DataGridView1.Size = New System.Drawing.Size(1048, 401)
         Me.DataGridView1.TabIndex = 6
         '
         'CheckBoxCarrera
@@ -111,7 +111,7 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(893, 350)
+        Me.Button1.Location = New System.Drawing.Point(890, 418)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(85, 28)
         Me.Button1.TabIndex = 9
@@ -144,7 +144,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1368, 390)
+        Me.ClientSize = New System.Drawing.Size(1368, 467)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)

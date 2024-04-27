@@ -8,14 +8,12 @@ Public Class Form3
         ' Obtén los datos actuales del DataGridView1
         Dim datos As DataTable = TryCast(DataGridView1.DataSource, DataTable)
 
-        ' Llama al método para cargar los datos en el ReportViewer
-        'ActualizarReportViewerConDatos(datos)
     End Sub
 
     Public Sub AgregarDatosAlDataGridView(data As DataTable)
         DataGridView1.DataSource = data
         ' Llama al método para actualizar el ReportViewer con los datos
-        'ActualizarReportViewerConDatos(data)
+
     End Sub
 
     Dim comision_id_original As Integer
@@ -76,6 +74,7 @@ Public Class Form3
                 conexion.Close()
             End If
         End Try
+
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -121,6 +120,9 @@ Public Class Form3
             End If
         End Try
 
+
     End Sub
+
+
 
 End Class
