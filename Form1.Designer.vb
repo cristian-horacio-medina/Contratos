@@ -28,11 +28,11 @@ Partial Class Form1
         Me.cboDocente = New System.Windows.Forms.ComboBox()
         Me.cboCarrera = New System.Windows.Forms.ComboBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.CheckBoxCarrera = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxDocente = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.CheckBoxCarrera = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxDocente = New System.Windows.Forms.CheckBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,26 +89,6 @@ Partial Class Form1
         Me.DataGridView1.Size = New System.Drawing.Size(1048, 401)
         Me.DataGridView1.TabIndex = 6
         '
-        'CheckBoxCarrera
-        '
-        Me.CheckBoxCarrera.AutoSize = True
-        Me.CheckBoxCarrera.Location = New System.Drawing.Point(237, 118)
-        Me.CheckBoxCarrera.Name = "CheckBoxCarrera"
-        Me.CheckBoxCarrera.Size = New System.Drawing.Size(52, 17)
-        Me.CheckBoxCarrera.TabIndex = 7
-        Me.CheckBoxCarrera.Text = "todas"
-        Me.CheckBoxCarrera.UseVisualStyleBackColor = True
-        '
-        'CheckBoxDocente
-        '
-        Me.CheckBoxDocente.AutoSize = True
-        Me.CheckBoxDocente.Location = New System.Drawing.Point(237, 163)
-        Me.CheckBoxDocente.Name = "CheckBoxDocente"
-        Me.CheckBoxDocente.Size = New System.Drawing.Size(52, 17)
-        Me.CheckBoxDocente.TabIndex = 8
-        Me.CheckBoxDocente.Text = "todos"
-        Me.CheckBoxDocente.UseVisualStyleBackColor = True
-        '
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(890, 418)
@@ -140,16 +120,36 @@ Partial Class Form1
         Me.Label2.TabIndex = 11
         Me.Label2.Text = "                      "
         '
+        'CheckBoxCarrera
+        '
+        Me.CheckBoxCarrera.AutoSize = True
+        Me.CheckBoxCarrera.Location = New System.Drawing.Point(249, 121)
+        Me.CheckBoxCarrera.Name = "CheckBoxCarrera"
+        Me.CheckBoxCarrera.Size = New System.Drawing.Size(52, 17)
+        Me.CheckBoxCarrera.TabIndex = 12
+        Me.CheckBoxCarrera.Text = "todos"
+        Me.CheckBoxCarrera.UseVisualStyleBackColor = True
+        '
+        'CheckBoxDocente
+        '
+        Me.CheckBoxDocente.AutoSize = True
+        Me.CheckBoxDocente.Location = New System.Drawing.Point(250, 161)
+        Me.CheckBoxDocente.Name = "CheckBoxDocente"
+        Me.CheckBoxDocente.Size = New System.Drawing.Size(52, 17)
+        Me.CheckBoxDocente.TabIndex = 13
+        Me.CheckBoxDocente.Text = "todos"
+        Me.CheckBoxDocente.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1368, 467)
+        Me.Controls.Add(Me.CheckBoxDocente)
+        Me.Controls.Add(Me.CheckBoxCarrera)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.CheckBoxDocente)
-        Me.Controls.Add(Me.CheckBoxCarrera)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.cboCarrera)
         Me.Controls.Add(Me.cboDocente)
@@ -170,9 +170,9 @@ Partial Class Form1
     Friend WithEvents cboDocente As ComboBox
     Friend WithEvents cboCarrera As ComboBox
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents CheckBoxCarrera As CheckBox
-    Friend WithEvents CheckBoxDocente As CheckBox
     Friend WithEvents Button1 As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
+    Friend WithEvents CheckBoxCarrera As CheckBox
+    Friend WithEvents CheckBoxDocente As CheckBox
 End Class

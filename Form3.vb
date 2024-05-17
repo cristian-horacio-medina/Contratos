@@ -4,6 +4,8 @@ Imports System.Net.Mime.MediaTypeNames
 Imports System.Data.Common
 Imports System.Data.SqlClient
 Public Class Form3
+    Dim comision_id_original As Integer
+    Dim division_original As String
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Obtén los datos actuales del DataGridView1
         Dim datos As DataTable = TryCast(DataGridView1.DataSource, DataTable)
@@ -16,12 +18,11 @@ Public Class Form3
 
     End Sub
 
-    Dim comision_id_original As Integer
-    Dim division_original As String
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         Dim i As Integer
         i = DataGridView1.CurrentRow.Index
+
         TextBox1.Text = DataGridView1.Item(4, i).Value()
         Label1.Text = DataGridView1.Item(4, i).Value()
         Label3.Text = DataGridView1.Item(2, i).Value()
@@ -29,12 +30,22 @@ Public Class Form3
         ' Guarda los valores originales de comision_id y division
         comision_id_original = CInt(DataGridView1.Item(2, i).Value())
         division_original = DataGridView1.Item(4, i).Value().ToString()
+
     End Sub
 
     Public Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+
         Dim textoOriginal As String = TextBox1.Text
         Dim textoModificado As String = textoOriginal.Replace("-V", "")
-        Dim valorDeComisionId As Integer = Label3.Text
+
+
+        Dim valorDeComisionId As Integer
+
+        If Not Integer.TryParse(Label3.Text, valorDeComisionId) Then
+            MessageBox.Show("Por favor seleccione una comisión.")
+            Return
+        End If
 
         ' Asigna el texto modificado de vuelta al TextBox
         TextBox1.Text = textoModificado
@@ -73,7 +84,12 @@ Public Class Form3
             If conexion.State = ConnectionState.Open Then
                 conexion.Close()
             End If
+
         End Try
+
+
+
+        ReloadData()
 
     End Sub
 
@@ -120,9 +136,13 @@ Public Class Form3
             End If
         End Try
 
-
+        ReloadData()
     End Sub
-
+    Private Sub ReloadData()
+        ' Coloca aquí el código para cargar nuevamente los datos en el DataGridView
+        Dim datos As DataTable = TryCast(DataGridView1.DataSource, DataTable)
+        DataGridView1.DataSource = datos
+    End Sub
 
 
 End Class
