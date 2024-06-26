@@ -22,11 +22,38 @@ Public Class Form1
         LlenarCombobox(cboCicloLectivo, "SELECT DISTINCT Descripcion FROM AL_CICLOS_LECTIVOS where Descripcion > 2022")
 
         ' Llena el ComboBox con datos de la tabla al_carreras (carrera_id)
-        LlenarCboCarrera(cboCarrera, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
+        LlenarCboCarrera(cboCarrera, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
 
         ' Llena el ComboBox con datos de la tabla al_docentes (docente_id)
-        LlenarCboDocente(cboDocente, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
-
+        'LlenarCboDocente(cboDocente, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+        LlenarCboDocente(cboDocente, "Select al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
 
         CboModuloId.Items.Add("1er Cuatrimestre")
         CboModuloId.Items.Add("2do Cuatrimestre")
@@ -162,7 +189,21 @@ Public Class Form1
             Dim cicloLectivo As String = añoActual
             'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
-            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select carrera_id, nombrecompleto FROM al_carreras where Activo Like '%S%'")
+            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
             'Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL3(cicloLectivo, moduloId, carreraId)
@@ -172,7 +213,20 @@ Public Class Form1
             Dim cicloLectivo As String = añoActual
             'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
-            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select DISTINCT al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
 
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL2(cicloLectivo, moduloId, docente_Id)
@@ -184,12 +238,39 @@ Public Class Form1
             Dim cicloLectivo As String = añoActual
                 'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
                 Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
-                Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select carrera_id, nombrecompleto FROM al_carreras where Activo Like '%S%'")
-                Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
+            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select DISTINCT al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
 
 
-                ' Ejecutar la consulta SQL con parámetros
-                EjecutarConsultaSQL(carreraId, cicloLectivo, moduloId, docente_Id)
+            ' Ejecutar la consulta SQL con parámetros
+            EjecutarConsultaSQL(carreraId, cicloLectivo, moduloId, docente_Id)
             End If
 
 
