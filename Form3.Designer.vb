@@ -22,7 +22,9 @@ Partial Class Form3
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+
         Me.ReportViewer1 = New Microsoft.Reporting.WinForms.ReportViewer()
+
         Me.DataSet1 = New System.Data.DataSet()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -40,6 +42,7 @@ Partial Class Form3
         Me.DataGridView1.Size = New System.Drawing.Size(1071, 207)
         Me.DataGridView1.TabIndex = 1
         '
+
         'ReportViewer1
         '
         Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "Contratos.Report2.rdlc"
@@ -49,6 +52,7 @@ Partial Class Form3
         Me.ReportViewer1.Size = New System.Drawing.Size(438, 108)
         Me.ReportViewer1.TabIndex = 2
         '
+
         'DataSet1
         '
         Me.DataSet1.DataSetName = "NewDataSet"
@@ -97,7 +101,9 @@ Partial Class Form3
 
     End Sub
     Friend WithEvents DataGridView1 As DataGridView
+
     Friend WithEvents ReportViewer1 As Microsoft.Reporting.WinForms.ReportViewer
+
     Friend WithEvents DataSet1 As DataSet
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label

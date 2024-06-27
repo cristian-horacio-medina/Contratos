@@ -163,7 +163,10 @@
     <None Include="My Project\DataSources\Contratos.My.MySettings.datasource" />
     <None Include="My Project\DataSources\DatosReporte.datasource" />
     <None Include="My Project\DataSources\Form1.datasource" />
+    <None Include="My Project\DataSources\Form1.DatosparaReporte.datasource" />
+    <None Include="My Project\DataSources\Form1.DatosReporte.datasource" />
     <None Include="My Project\DataSources\Form3.datasource" />
+    <None Include="My Project\DataSources\Form3.DatosReporte.datasource" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
