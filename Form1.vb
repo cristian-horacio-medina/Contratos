@@ -7,33 +7,58 @@ Public Class Form1
     Dim CN As SqlConnection
     Dim dataTable As DataTable
     Dim dataAdapter As SqlDataAdapter
+    Dim añoActual As Integer = DateTime.Now.Year
 
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        CN = New SqlConnection("Data Source=PAPA-PC\SQL;Initial Catalog=Gestion;User ID=sa;Password=$sql3")
 
-        '    DataGridView1.Columns.Add(New DataGridViewCheckBoxColumn With {
-        '    .HeaderText = "Seleccione",
-        '    .Name = "ColumnaCheckBox",
-        '    .TrueValue = True,
-        '    .FalseValue = False
-        '}) ' Columna de CheckBox
+    Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        Label2.Text = añoActual
+
+        CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05")
 
         ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
 
         LlenarCombobox(cboCicloLectivo, "SELECT DISTINCT Descripcion FROM AL_CICLOS_LECTIVOS where Descripcion > 2022")
 
         ' Llena el ComboBox con datos de la tabla al_carreras (carrera_id)
-        LlenarCboCarrera(cboCarrera, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
+        LlenarCboCarrera(cboCarrera, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
 
         ' Llena el ComboBox con datos de la tabla al_docentes (docente_id)
-        LlenarCboDocente(cboDocente, "Select docente_id, CONCAT(Apellido, ', ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+        'LlenarCboDocente(cboDocente, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+        LlenarCboDocente(cboDocente, "Select al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
 
         CboModuloId.Items.Add("1er Cuatrimestre")
         CboModuloId.Items.Add("2do Cuatrimestre")
         CboModuloId.SelectedIndex = 0
-        Form3.ReportViewer1.RefreshReport()
+
     End Sub
     Private Sub LlenarCboCarrera(combobox As ComboBox, consulta As String)
         Try
@@ -94,6 +119,9 @@ Public Class Form1
             CN.Close()
         End Try
     End Sub
+
+
+
 
     Private Sub LlenarCombobox(combobox As ComboBox, consulta As String)
         Try
@@ -157,34 +185,150 @@ Public Class Form1
         ' Obtener los valores seleccionados en los ComboBoxes
         If CheckBoxDocente.Checked Then
             cboDocente.Text = ""
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+
+            Dim cicloLectivo As String = añoActual
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
-            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
+            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
             'Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL3(cicloLectivo, moduloId, carreraId)
 
         ElseIf CheckBoxCarrera.Checked Then
             cboCarrera.Text = ""
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+            Dim cicloLectivo As String = añoActual
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2)
-            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select DISTINCT al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
+
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL2(cicloLectivo, moduloId, docente_Id)
+            ContarComisionesConV(cicloLectivo, moduloId, docente_Id)
 
 
         Else
 
-            Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
-            Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
-            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "SELECT carrera_id, nombrecompleto FROM al_carreras where Activo LIKE '%S%'")
-            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+            Dim cicloLectivo As String = añoActual
+                'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+                Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
+            Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
+            From al_comisiones_mate
+            INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+            INNER Join tg_dias ON tg_dias.Dia_ID = al_comisiones_mate_horarios.Dia_ID
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            GROUP BY
+			AL_CARRERAS.Descripcion,
+			al_carreras.carrera_id
+    		order by carrera asc")
+            Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select DISTINCT al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
+            From al_comisiones_mate
+            INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+            INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id
+            INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+            INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            WHERE 
+            AL_CICLOS_LECTIVOS.Descripcion = (year(GetDate()))
+            and al_docentes.Docente_ID <> 5130 and al_docentes.Docente_ID <> 99999999
+            GROUP BY
+			al_docentes.Docente_ID,
+			al_docentes.Apellido,
+			al_docentes.Nombre
+			order by NombreCompleto asc")
 
 
             ' Ejecutar la consulta SQL con parámetros
             EjecutarConsultaSQL(carreraId, cicloLectivo, moduloId, docente_Id)
-        End If
+            End If
+
+
+
+
+
+
     End Sub
+
+    Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
+        ' Conexión a la base de datos
+        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
+        Dim conexion As New SqlConnection(connectionString)
+
+        Try
+            ' Abre la conexión
+            conexion.Open()
+
+            ' Consulta SQL para contar las comisiones con "-V" en la división
+            Dim consulta As String = "SELECT COUNT(*) 
+                                  FROM al_comisiones_mate
+                                  INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
+                                  INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
+                                  INNER Join al_carreras ON al_comisiones.carrera_id = al_carreras.carrera_id 
+                                  INNER Join al_docentes ON al_docentes.Docente_ID = al_comisiones_mate.docente_id  
+                                  INNER JOIN AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
+                                  INNER JOIN AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+                                  WHERE Division LIKE '%-V%'
+                                  AND AL_CICLOS_LECTIVOS.Descripcion = @CicloLectivo
+                                  AND AL_CICLOS_LECTIVOS_MODULOS.Modulo_ID = @ModuloId
+                                  AND AL_DOCENTES.Docente_ID = @DocenteId
+                                  AND al_docentes.Docente_ID <> 5130
+                                  AND al_docentes.Docente_ID <> 99999999"
+
+            ' Crea un comando SQL con la consulta y la conexión
+            Dim comando As New SqlCommand(consulta, conexion)
+
+            ' Asigna valores a los parámetros
+            comando.Parameters.AddWithValue("@CicloLectivo", cicloLectivo)
+            comando.Parameters.AddWithValue("@ModuloId", moduloId)
+            comando.Parameters.AddWithValue("@DocenteId", docente_id)
+
+            ' Ejecuta el comando y obtén el resultado
+            Dim contador As Integer = Convert.ToInt32(comando.ExecuteScalar())
+
+            ' Muestra el resultado
+            MessageBox.Show("Cantidad de comisiones con '-V' en la división: " & contador.ToString())
+        Catch ex As Exception
+            MessageBox.Show("Error al contar las comisiones: " & ex.Message)
+        Finally
+            ' Cierra la conexión si está abierta
+            If conexion.State = ConnectionState.Open Then
+                conexion.Close()
+            End If
+        End Try
+
+    End Sub
+
 
     Private Sub EjecutarConsultaSQL(carreraId As Integer, cicloLectivo As Integer, moduloId As Integer, docente_Id As Integer)
         Try
@@ -195,7 +339,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, al_carreras.Nombrecompleto As carrera, al_horarios.combo As horario, al_comisiones.anio, al_comisiones.division, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -208,6 +352,9 @@ Public Class Form1
             INNER Join al_horarios ON al_horarios.Horario_ID = al_comisiones_mate_horarios.Horario_ID
             INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
             INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            INNER Join AL_TURNOS ON AL_TURNOS.Turno_ID=AL_COMISIONES.Turno_ID
+            INNER Join AL_PLANES_EST_CARRE_MATE ON AL_PLANES_EST_CARRE_MATE.Materia_ID=AL_MATERIAS.materia_ID
+			INNER JOIN AL_PLANES_EST_CARRE ON AL_PLANES_EST_CARRE.PlanEstCarrera_ID=AL_PLANES_EST_CARRE_MATE.PlanEstCarrera_ID
             WHERE 
             AL_CICLOS_LECTIVOS.Descripcion = @CicloLectivo
             And AL_CICLOS_LECTIVOS_MODULOS.Modulo_ID = @ModuloId
@@ -215,15 +362,17 @@ Public Class Form1
             And (al_comisiones.carrera_id = @CarreraId OR @CarreraId IS NULL)
             GROUP BY
     al_docentes.combo,
-    al_carreras.Nombrecompleto,
-    al_horarios.combo,
+    AL_PLANES_EST_CARRE.Combo,
+    al_turnos.Descripcion,
+	AL_COMISIONES.Comision_ID,
     al_comisiones.anio,
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
     tg_tipos_documento.nombre_abr,
     al_docentes.numdoc,
-    tg_sexos.abreviatura;"
+    tg_sexos.abreviatura
+    order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
 
@@ -263,8 +412,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, al_carreras.Nombrecompleto As carrera, al_horarios.combo As horario, al_comisiones.anio, al_comisiones.division, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr as tipo_documento, al_docentes.numdoc, tg_sexos.abreviatura as sexo
- 
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -277,22 +425,27 @@ Public Class Form1
             INNER Join al_horarios ON al_horarios.Horario_ID = al_comisiones_mate_horarios.Horario_ID
             INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
             INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            INNER Join AL_TURNOS ON AL_TURNOS.Turno_ID=AL_COMISIONES.Turno_ID
+            INNER Join AL_PLANES_EST_CARRE_MATE ON AL_PLANES_EST_CARRE_MATE.Materia_ID=AL_MATERIAS.materia_ID
+			INNER JOIN AL_PLANES_EST_CARRE ON AL_PLANES_EST_CARRE.PlanEstCarrera_ID=AL_PLANES_EST_CARRE_MATE.PlanEstCarrera_ID
             WHERE
         AL_CICLOS_LECTIVOS.Descripcion = @CicloLectivo
             And AL_CICLOS_LECTIVOS_MODULOS.Modulo_ID = @ModuloId
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-     al_docentes.combo,
-    al_carreras.Nombrecompleto,
-    al_horarios.combo,
+    al_docentes.combo,
+    AL_PLANES_EST_CARRE.Combo,
+    al_turnos.Descripcion,
+	AL_COMISIONES.Comision_ID,
     al_comisiones.anio,
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
     tg_tipos_documento.nombre_abr,
     al_docentes.numdoc,
-    tg_sexos.abreviatura;"
+    tg_sexos.abreviatura
+    order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
 
@@ -331,8 +484,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, al_carreras.Nombrecompleto As carrera, al_horarios.combo As horario, al_comisiones.anio, al_comisiones.division, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr as tipo_documento, al_docentes.numdoc, tg_sexos.abreviatura as sexo
-
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -345,23 +497,28 @@ Public Class Form1
             INNER Join al_horarios ON al_horarios.Horario_ID = al_comisiones_mate_horarios.Horario_ID
             INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
             INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            INNER Join AL_TURNOS ON AL_TURNOS.Turno_ID=AL_COMISIONES.Turno_ID
+            INNER Join AL_PLANES_EST_CARRE_MATE ON AL_PLANES_EST_CARRE_MATE.Materia_ID=AL_MATERIAS.materia_ID
+			INNER JOIN AL_PLANES_EST_CARRE ON AL_PLANES_EST_CARRE.PlanEstCarrera_ID=AL_PLANES_EST_CARRE_MATE.PlanEstCarrera_ID
             WHERE
         AL_CICLOS_LECTIVOS.Descripcion = @CicloLectivo
             And AL_CICLOS_LECTIVOS_MODULOS.Modulo_ID = @ModuloId
-            And (AL_DOCENTES.Docente_ID = @DocenteId OR @DocenteId IS NULL)
+            And AL_DOCENTES.Docente_ID = @DocenteId
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-     al_docentes.combo,
-    al_carreras.Nombrecompleto,
-    al_horarios.combo,
+    al_docentes.combo,
+    AL_PLANES_EST_CARRE.Combo,
+    al_turnos.Descripcion,
+	AL_COMISIONES.Comision_ID,
     al_comisiones.anio,
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
     tg_tipos_documento.nombre_abr,
     al_docentes.numdoc,
-    tg_sexos.abreviatura;"
+    tg_sexos.abreviatura
+    order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
 
@@ -401,7 +558,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, al_carreras.Nombrecompleto As carrera, al_horarios.combo As horario, al_comisiones.anio, al_comisiones.division, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura as sexo
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -414,6 +571,9 @@ Public Class Form1
             INNER Join al_horarios ON al_horarios.Horario_ID = al_comisiones_mate_horarios.Horario_ID
             INNER Join AL_CICLOS_LECTIVOS_MODULOS ON AL_CICLOS_LECTIVOS_MODULOS.CicloLectModulo_ID = al_comisiones.CicloLectModulo_ID
             INNER Join AL_CICLOS_LECTIVOS ON AL_CICLOS_LECTIVOS.CicloLectivo_ID = AL_CICLOS_LECTIVOS_MODULOS.CicloLectivo_ID
+            INNER Join AL_TURNOS ON AL_TURNOS.Turno_ID=AL_COMISIONES.Turno_ID
+            INNER Join AL_PLANES_EST_CARRE_MATE ON AL_PLANES_EST_CARRE_MATE.Materia_ID=AL_MATERIAS.materia_ID
+			INNER JOIN AL_PLANES_EST_CARRE ON AL_PLANES_EST_CARRE.PlanEstCarrera_ID=AL_PLANES_EST_CARRE_MATE.PlanEstCarrera_ID
             WHERE
         AL_CICLOS_LECTIVOS.Descripcion = @CicloLectivo
             And AL_CICLOS_LECTIVOS_MODULOS.Modulo_ID = @ModuloId
@@ -421,16 +581,18 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
-     al_docentes.combo,
-    al_carreras.Nombrecompleto,
-    al_horarios.combo,
+    al_docentes.combo,
+    AL_PLANES_EST_CARRE.Combo,
+    al_turnos.Descripcion,
+	AL_COMISIONES.Comision_ID,
     al_comisiones.anio,
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
     tg_tipos_documento.nombre_abr,
     al_docentes.numdoc,
-    tg_sexos.abreviatura;"
+    tg_sexos.abreviatura
+    order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
 
@@ -459,25 +621,26 @@ Public Class Form1
             ' Cerrar la conexión después de usarla
             CN.Close()
         End Try
+    End Sub
 
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ' Crear un DataTable para almacenar los datos de las filas seleccionadas
         Dim dataTable As New DataTable("DatosReporte")
-                Dim materia As String = row.Cells(5).Value.ToString()
-                Dim dia As String = row.Cells(6).Value.ToString()
-                Dim nombre_abr As String = row.Cells(7).Value.ToString()
-                Dim numdoc As String = row.Cells(8).Value.ToString()
-                Dim sexo As String = row.Cells(9).Value.ToString()
-                ' Crear una nueva fila con los valores de docente y carrera
-                Dim newRow As String() = {docente, carrera, horario, anio, division, materia, dia, nombre_abr, numdoc, sexo}
-                Form3.DataGridView1.Rows.Add(newRow)
-            Next
 
-            ' Verificar si no se seleccionaron filas
-            If DataGridView1.SelectedRows.Count = 0 Then
-                MsgBox("Seleccione al menos una fila")
+        ' Agregar columnas al DataTable
+        dataTable.Columns.Add("docente")
+        dataTable.Columns.Add("carrera")
+        dataTable.Columns.Add("Comision_ID")
+        dataTable.Columns.Add("anio")
+        dataTable.Columns.Add("division")
+        dataTable.Columns.Add("turno")
+        dataTable.Columns.Add("materia")
+        dataTable.Columns.Add("dia")
+        dataTable.Columns.Add("numdoc")
+        dataTable.Columns.Add("sexo")
+
         Try
             ' Verificar si se seleccionaron filas
             If DataGridView1.SelectedRows.Count > 0 Then
@@ -486,37 +649,37 @@ Public Class Form1
                     Dim newRow As DataRow = dataTable.NewRow()
                     newRow("docente") = row.Cells(0).Value.ToString()
                     newRow("carrera") = row.Cells(1).Value.ToString()
-                    newRow("horario") = row.Cells(2).Value.ToString()
+                    newRow("Comision_ID") = row.Cells(2).Value.ToString()
                     newRow("anio") = row.Cells(3).Value.ToString()
                     newRow("division") = row.Cells(4).Value.ToString()
-                    newRow("materia") = row.Cells(5).Value.ToString()
-                    newRow("dia") = row.Cells(6).Value.ToString()
-                    newRow("nombre_abr") = row.Cells(7).Value.ToString()
+                    newRow("turno") = row.Cells(5).Value.ToString()
+                    newRow("materia") = row.Cells(6).Value.ToString()
+                    newRow("dia") = row.Cells(7).Value.ToString()
                     newRow("numdoc") = row.Cells(8).Value.ToString()
                     newRow("sexo") = row.Cells(9).Value.ToString()
                     ' Agregar el resto de los valores de las celdas al newRow según las columnas definidas
-            ' Verificar si no se seleccionaron filas
+
                     ' Agregar newRow al DataTable
                     dataTable.Rows.Add(newRow)
 
                 Next
-            ' Agregar el resto de columnas según sea necesario...
+
                 ' Crear un nuevo informe y asignar los datos
                 Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
                 reporte.ReportPath = "C:\Users\Cristian\source\repos\Contratos\Informe.rdlc"
-                Dim newRow As DataRow = dataTable.NewRow()
-                newRow("docente") = row.Cells(0).Value.ToString()
-                newRow("carrera") = row.Cells(1).Value.ToString()
-                newRow("horario") = row.Cells(2).Value.ToString()
-                newRow("anio") = row.Cells(3).Value.ToString()
-                newRow("division") = row.Cells(4).Value.ToString()
-                newRow("materia") = row.Cells(5).Value.ToString()
-                newRow("dia") = row.Cells(6).Value.ToString()
-                newRow("nombre_abr") = row.Cells(7).Value.ToString()
-                newRow("numdoc") = row.Cells(8).Value.ToString()
-                newRow("sexo") = row.Cells(9).Value.ToString()
 
-                ' Mostrar el formulario con el ReportViewer
+                ' Asignar el DataTable como origen de datos para el informe
+                reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+                '' Asignar el informe al ReportViewer en Form3
+                'Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
+                'Form3.ReportViewer1.LocalReport.DataSources.Clear()
+                'Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
+
+                '' Refrescar el ReportViewer
+                'Form3.ReportViewer1.RefreshReport()
+
+                '' Mostrar el formulario con el ReportViewer
                 Form3.AgregarDatosAlDataGridView(dataTable)
                 Form3.Show()
 
@@ -524,62 +687,6 @@ Public Class Form1
                 MsgBox("Seleccione al menos una fila")
             End If
         Catch ex As Exception
-            ' Crear un nuevo informe y asignar los datos
-            Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
-            reporte.ReportPath = "C:\Users\Cristian\source\repos\Contratos\Informe.rdlc" ' Ruta de tu informe
-                Dim newRow As DataRow = dataTable.NewRow()
-                newRow("docente") = row.Cells(0).Value.ToString()
-                newRow("carrera") = row.Cells(1).Value.ToString()
-                newRow("horario") = row.Cells(2).Value.ToString()
-                newRow("anio") = row.Cells(3).Value.ToString()
-                newRow("division") = row.Cells(4).Value.ToString()
-    Public Class DatosparaReporte
-        Public Property docente As String
-        Public Property carrera As String
-        Public Property horario As String
-        Public Property anio As String
-        Public Property division As String
-        Public Property materia As String
-        Public Property dia As String
-        Public Property nombre_abr As String
-        Public Property numdoc As String
-        Public Property sexo As String
-
-    End Class
-
-                newRow("materia") = row.Cells(5).Value.ToString()
-                newRow("dia") = row.Cells(6).Value.ToString()
-                newRow("nombre_abr") = row.Cells(7).Value.ToString()
-                newRow("numdoc") = row.Cells(8).Value.ToString()
-                newRow("sexo") = row.Cells(9).Value.ToString()
-
-            ' Mostrar el formulario con el ReportViewer
-            Form3.Show()
-        Else
-            MsgBox("Seleccione al menos una fila")
-        End If
-
-            ' Crear un nuevo informe y asignar los datos
-            Dim reporte As New Microsoft.Reporting.WinForms.LocalReport
-            reporte.ReportPath = "C:\Users\Cristian\source\repos\Contratos\Informe.rdlc" ' Ruta de tu informe
-
-                ' Asignar el DataTable como origen de datos para el informe
-                reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-                ' Asignar el informe al ReportViewer en Form3
-                Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
-                Form3.ReportViewer1.LocalReport.DataSources.Clear()
-                Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-                ' Refrescar el ReportViewer
-                Form3.ReportViewer1.RefreshReport()
-
-            ' Mostrar el formulario con el ReportViewer
-            Form3.Show()
-        Else
-            MsgBox("Seleccione al menos una fila")
-        End If
-
 
             ' Manejar cualquier excepción que pueda ocurrir
             MessageBox.Show("Error al cargar el informe: " & ex.Message)
@@ -589,22 +696,12 @@ Public Class Form1
 
     Public Shared Property Rows As Object
 
-End Class
 
-Public Class DatosReporte
 
-    Public Property docente As String
-    Public Property carrera As String
-    Public Property horario As String
-    Public Property anio As String
-    Public Property division As String
-    Public Property materia As String
-    Public Property dia As String
-    Public Property nombre_abr As String
-    Public Property numdoc As String
-    Public Property sexo As String
 
 End Class
+
+
 
 
 
