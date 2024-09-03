@@ -85,6 +85,7 @@
       <HintPath>packages\Microsoft.SqlServer.Types.160.1000.6\lib\net462\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -161,6 +162,7 @@
     </None>
     <None Include="My Project\DataSources\Contratos.My.MyApplication.datasource" />
     <None Include="My Project\DataSources\Contratos.My.MySettings.datasource" />
+    <None Include="My Project\DataSources\DatosReporte.datasource" />
     <None Include="My Project\DataSources\Form1.datasource" />
     <None Include="My Project\DataSources\Form1.DatosparaReporte.datasource" />
     <None Include="My Project\DataSources\Form1.DatosReporte.datasource" />

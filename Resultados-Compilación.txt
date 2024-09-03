@@ -1,0 +1,4 @@
+﻿Operación Compilar iniciada..
+1>------ Operación Compilar iniciada: Proyecto: Contratos, configuración: Debug Any CPU ------
+1>  Contratos -> C:\Users\Papá\source\repos\cristian-horacio-medina\Contratos\bin\Debug\Contratos.exe
+========== Compilación: 1 correctos, 0 dieron error, 0 actualizados, 0 omitidos ==========
