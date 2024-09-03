@@ -1,5 +1,7 @@
-﻿Imports System.Data.Sql
+﻿Imports System.Configuration
+Imports System.Data.Sql
 Imports System.Data.SqlClient
+
 
 Public Class Form1
 
@@ -15,7 +17,15 @@ Public Class Form1
 
         Label2.Text = añoActual
 
-        CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05")
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
+        ' Crear la conexión con la cadena de conexión leída.
+        CN = New SqlConnection(connectionString)
+
+
+
+        'CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05")
 
         ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
 
