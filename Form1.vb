@@ -3,6 +3,7 @@ Imports System.Data.Sql
 Imports System.Data.SqlClient
 
 
+
 Public Class Form1
 
 
@@ -17,6 +18,11 @@ Public Class Form1
 
         Label2.Text = añoActual
 
+
+        DataGridView1.MultiSelect = False
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+
+
         ' Leer la cadena de conexión desde el archivo de configuración.
         Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
 
@@ -24,8 +30,24 @@ Public Class Form1
         CN = New SqlConnection(connectionString)
 
 
+        Try
+            ' Abrir la conexión para poder acceder a sus propiedades.
+            CN.Open()
 
-        'CN = New SqlConnection("Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05")
+            ' Obtener los datos del servidor y mostrarlos en el Label.
+            Label3.Text = $"Conectado a: {CN.DataSource} | Base: {CN.Database}"
+
+        Catch ex As Exception
+            ' Manejar cualquier excepción (por ejemplo, si no se puede conectar al servidor).
+            MessageBox.Show($"Error al conectar al servidor: {ex.Message}")
+
+        Finally
+            ' Cerrar la conexión si está abierta.
+            If CN.State = ConnectionState.Open Then
+                CN.Close()
+            End If
+        End Try
+
 
         ' Llena el ComboBox con datos de la tabla AL_CICLOS_LECTIVOS (Descripcion)
 
@@ -241,13 +263,10 @@ Public Class Form1
             ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL2(cicloLectivo, moduloId, docente_Id)
             ContarComisionesConV(cicloLectivo, moduloId, docente_Id)
-
-
         Else
-
             Dim cicloLectivo As String = añoActual
-                'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
-                Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
+            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
+            Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
             Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
@@ -281,7 +300,7 @@ Public Class Form1
 
             ' Ejecutar la consulta SQL con parámetros
             EjecutarConsultaSQL(carreraId, cicloLectivo, moduloId, docente_Id)
-            End If
+        End If
 
 
 
@@ -704,12 +723,20 @@ Public Class Form1
     End Sub
 
 
+
+
+
+
+
+
     Public Shared Property Rows As Object
 
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Close()
 
-
-
+    End Sub
 End Class
+
 
 
 
