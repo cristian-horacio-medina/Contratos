@@ -311,12 +311,15 @@ Public Class Form1
 
     Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
         ' Conexión a la base de datos
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
-        Dim conexion As New SqlConnection(connectionString)
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
+        ' Crear la conexión con la cadena de conexión leída.
+        CN = New SqlConnection(connectionString)
 
         Try
             ' Abre la conexión
-            conexion.Open()
+            CN.Open()
 
             ' Consulta SQL para contar las comisiones con "-V" en la división
             Dim consulta As String = "SELECT COUNT(*) 
@@ -335,7 +338,7 @@ Public Class Form1
                                   AND al_docentes.Docente_ID <> 99999999"
 
             ' Crea un comando SQL con la consulta y la conexión
-            Dim comando As New SqlCommand(consulta, conexion)
+            Dim comando As New SqlCommand(consulta, CN)
 
             ' Asigna valores a los parámetros
             comando.Parameters.AddWithValue("@CicloLectivo", cicloLectivo)
@@ -351,8 +354,8 @@ Public Class Form1
             MessageBox.Show("Error al contar las comisiones: " & ex.Message)
         Finally
             ' Cierra la conexión si está abierta
-            If conexion.State = ConnectionState.Open Then
-                conexion.Close()
+            If CN.State = ConnectionState.Open Then
+                CN.Close()
             End If
         End Try
 
