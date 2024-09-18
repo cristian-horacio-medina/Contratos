@@ -236,8 +236,6 @@ Public Class Form1
 			AL_CARRERAS.Descripcion,
 			al_carreras.carrera_id
     		order by carrera asc")
-            'Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
-            ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL3(cicloLectivo, moduloId, carreraId)
 
         ElseIf CheckBoxCarrera.Checked Then
@@ -265,7 +263,6 @@ Public Class Form1
             ContarComisionesConV(cicloLectivo, moduloId, docente_Id)
         Else
             Dim cicloLectivo As String = añoActual
-            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
             Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
             From al_comisiones_mate
