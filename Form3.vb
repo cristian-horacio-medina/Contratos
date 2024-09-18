@@ -51,9 +51,11 @@ Public Class Form3
         TextBox1.Text = textoModificado
         Label3.Text = valorDeComisionId
 
-        ' Conexión a la base de datos
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
-        Dim conexion As New SqlConnection(connectionString)
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
+        ' Crear la conexión con la cadena de conexión leída.
+        CN = New SqlConnection(connectionString)
 
         Try
             ' Abre la conexión
