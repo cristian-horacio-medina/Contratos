@@ -236,8 +236,6 @@ Public Class Form1
 			AL_CARRERAS.Descripcion,
 			al_carreras.carrera_id
     		order by carrera asc")
-            'Dim docente_Id As String = ObtenerValorSeleccionado(cboDocente.SelectedIndex, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
-            ' Ejecutar la consulta SQL con parámetros cicloLectivo y moduloId
             EjecutarConsultaSQL3(cicloLectivo, moduloId, carreraId)
 
         ElseIf CheckBoxCarrera.Checked Then
@@ -265,7 +263,6 @@ Public Class Form1
             ContarComisionesConV(cicloLectivo, moduloId, docente_Id)
         Else
             Dim cicloLectivo As String = añoActual
-            'Dim cicloLectivo As String = cboCicloLectivo.SelectedItem.ToString()
             Dim moduloId As Integer = If(CboModuloId.SelectedIndex = 0, 1, 2) ' Asumiendo que el ComboBox CboModuloId contiene valores numéricos.
             Dim carreraId As String = ObtenerValorSeleccionado(cboCarrera.SelectedIndex, "Select DISTINCT al_carreras.Carrera_ID as ID, AL_CARRERAS.Descripcion As carrera
             From al_comisiones_mate
@@ -311,8 +308,8 @@ Public Class Form1
 
     Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
         ' Conexión a la base de datos
-        ' Leer la cadena de conexión desde el archivo de configuración.
-        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
+        Dim conexion As New SqlConnection(connectionString)
 
         ' Crear la conexión con la cadena de conexión leída.
         CN = New SqlConnection(connectionString)
@@ -703,15 +700,7 @@ Public Class Form1
                 ' Asignar el DataTable como origen de datos para el informe
                 reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
 
-                '' Asignar el informe al ReportViewer en Form3
-                'Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
-                'Form3.ReportViewer1.LocalReport.DataSources.Clear()
-                'Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-                '' Refrescar el ReportViewer
-                'Form3.ReportViewer1.RefreshReport()
-
-                '' Mostrar el formulario con el ReportViewer
+                ' Mostrar el formulario con el ReportViewer
                 Form3.AgregarDatosAlDataGridView(dataTable)
                 Form3.Show()
 
@@ -726,12 +715,6 @@ Public Class Form1
     End Sub
 
 
-
-
-
-
-
-
     Public Shared Property Rows As Object
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -741,12 +724,6 @@ Public Class Form1
 End Class
 
 
-
-
-
-
-
-'Este va en el Contratos_docentes (doble click en el proyecto)<TargetFramework>net8.0-windows7.0</TargetFramework>
 
 
 
