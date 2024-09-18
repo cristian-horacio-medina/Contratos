@@ -70,8 +70,7 @@ Public Class Form1
 			al_carreras.carrera_id
     		order by carrera asc")
 
-        ' Llena el ComboBox con datos de la tabla al_docentes (docente_id)
-        'LlenarCboDocente(cboDocente, "Select docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto FROM AL_Docentes where Activo LIKE '%S%' and Contratado LIKE '%S%' ORDER BY Apellido")
+
         LlenarCboDocente(cboDocente, "Select al_docentes.Docente_ID as docente_id, CONCAT(Apellido, ' ' ,Nombre) As NombreCompleto
             From al_comisiones_mate
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -308,8 +307,9 @@ Public Class Form1
 
     Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
         ' Conexión a la base de datos
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
-        Dim conexion As New SqlConnection(connectionString)
+
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
 
         ' Crear la conexión con la cadena de conexión leída.
         CN = New SqlConnection(connectionString)
