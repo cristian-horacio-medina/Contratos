@@ -310,13 +310,15 @@ Public Class Form1
     End Sub
 
     Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
-        ' Conexión a la base de datos
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
-        Dim conexion As New SqlConnection(connectionString)
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
+        ' Crear la conexión con la cadena de conexión leída.
+        CN = New SqlConnection(connectionString)
 
         Try
             ' Abre la conexión
-            conexion.Open()
+            CN.Open()
 
             ' Consulta SQL para contar las comisiones con "-V" en la división
             Dim consulta As String = "SELECT COUNT(*) 
@@ -335,7 +337,7 @@ Public Class Form1
                                   AND al_docentes.Docente_ID <> 99999999"
 
             ' Crea un comando SQL con la consulta y la conexión
-            Dim comando As New SqlCommand(consulta, conexion)
+            Dim comando As New SqlCommand(consulta, CN)
 
             ' Asigna valores a los parámetros
             comando.Parameters.AddWithValue("@CicloLectivo", cicloLectivo)
@@ -351,8 +353,8 @@ Public Class Form1
             MessageBox.Show("Error al contar las comisiones: " & ex.Message)
         Finally
             ' Cierra la conexión si está abierta
-            If conexion.State = ConnectionState.Open Then
-                conexion.Close()
+            If CN.State = ConnectionState.Open Then
+                CN.Close()
             End If
         End Try
 
@@ -700,15 +702,7 @@ Public Class Form1
                 ' Asignar el DataTable como origen de datos para el informe
                 reporte.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
 
-                '' Asignar el informe al ReportViewer en Form3
-                'Form3.ReportViewer1.LocalReport.ReportPath = reporte.ReportPath
-                'Form3.ReportViewer1.LocalReport.DataSources.Clear()
-                'Form3.ReportViewer1.LocalReport.DataSources.Add(New Microsoft.Reporting.WinForms.ReportDataSource("DatosReporte", dataTable))
-
-                '' Refrescar el ReportViewer
-                'Form3.ReportViewer1.RefreshReport()
-
-                '' Mostrar el formulario con el ReportViewer
+                ' Mostrar el formulario con el ReportViewer
                 Form3.AgregarDatosAlDataGridView(dataTable)
                 Form3.Show()
 
@@ -723,12 +717,6 @@ Public Class Form1
     End Sub
 
 
-
-
-
-
-
-
     Public Shared Property Rows As Object
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -738,12 +726,6 @@ Public Class Form1
 End Class
 
 
-
-
-
-
-
-'Este va en el Contratos_docentes (doble click en el proyecto)<TargetFramework>net8.0-windows7.0</TargetFramework>
 
 
 

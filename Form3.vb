@@ -5,6 +5,7 @@ Imports System.Data.Common
 Imports System.Data.SqlClient
 Imports System.Configuration
 Public Class Form3
+    Dim conexion As SqlConnection
     Dim comision_id_original As Integer
     Dim division_original As String
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -104,8 +105,11 @@ Public Class Form3
         Label5.Text = comision_id_original
         Label6.Text = textoModificado
 
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
-        Dim conexion As New SqlConnection(connectionString)
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
+        ' Crear la conexión con la cadena de conexión leída.
+        conexion = New SqlConnection(connectionString)
 
         Try
             ' Abre la conexión
@@ -139,7 +143,7 @@ Public Class Form3
             End If
         End Try
 
-        ReloadData()
+        reloaddata()
     End Sub
     Private Sub reloaddata()
         ' coloca aquí el código para cargar nuevamente los datos en el datagridview
