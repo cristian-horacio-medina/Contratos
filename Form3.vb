@@ -3,6 +3,7 @@ Imports Contratos.Form1
 Imports System.Net.Mime.MediaTypeNames
 Imports System.Data.Common
 Imports System.Data.SqlClient
+Imports System.Configuration
 Public Class Form3
     Dim comision_id_original As Integer
     Dim division_original As String
@@ -51,8 +52,10 @@ Public Class Form3
         TextBox1.Text = textoModificado
         Label3.Text = valorDeComisionId
 
-        ' Conexión a la base de datos
-        Dim connectionString As String = "Data Source=FAE08\FAE08;Initial Catalog=Gestion;User ID=sa;Password=sql$05"
+
+        ' Leer la cadena de conexión desde el archivo de configuración.
+        Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
+
         Dim conexion As New SqlConnection(connectionString)
 
         Try
@@ -89,7 +92,7 @@ Public Class Form3
 
 
 
-        ReloadData()
+        reloaddata()
 
     End Sub
 
@@ -138,8 +141,8 @@ Public Class Form3
 
         ReloadData()
     End Sub
-    Private Sub ReloadData()
-        ' Coloca aquí el código para cargar nuevamente los datos en el DataGridView
+    Private Sub reloaddata()
+        ' coloca aquí el código para cargar nuevamente los datos en el datagridview
         Dim datos As DataTable = TryCast(DataGridView1.DataSource, DataTable)
         DataGridView1.DataSource = datos
     End Sub

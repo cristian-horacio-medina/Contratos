@@ -33,6 +33,7 @@ Partial Class Form3
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.Label7 = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -40,10 +41,10 @@ Partial Class Form3
         'DataGridView1
         '
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(13, 12)
+        Me.DataGridView1.Location = New System.Drawing.Point(13, 61)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(1071, 207)
+        Me.DataGridView1.Size = New System.Drawing.Size(1071, 158)
         Me.DataGridView1.TabIndex = 1
         '
         'DataSet1
@@ -153,11 +154,24 @@ Partial Class Form3
         Me.Button3.Text = "&Salir"
         Me.Button3.UseVisualStyleBackColor = True
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(12, 22)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(1089, 22)
+        Me.Label7.TabIndex = 12
+        Me.Label7.Text = "Hacer doble clic en la comisión a cambiar de nombre. Luego clic en el botón cambi" &
+    "ar. Para deshacer el cambio, clic en el botón revertir."
+        '
         'Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1095, 363)
+        Me.ClientSize = New System.Drawing.Size(1111, 363)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
@@ -170,7 +184,7 @@ Partial Class Form3
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.DataGridView1)
         Me.Name = "Form3"
-        Me.Text = "Reporte"
+        Me.Text = "Cambiar_nombre_de_comsión"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataSet1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -189,4 +203,5 @@ Partial Class Form3
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Button3 As Button
+    Friend WithEvents Label7 As Label
 End Class
