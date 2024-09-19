@@ -1,4 +1,4 @@
-﻿Imports System.Configuration
+Imports System.Configuration
 Imports System.Data.Sql
 Imports System.Data.SqlClient
 
@@ -308,8 +308,9 @@ Public Class Form1
 
     Private Sub ContarComisionesConV(cicloLectivo As Integer, moduloId As Integer, docente_id As Integer)
         ' Conexión a la base de datos
-        
-       ' Leer la cadena de conexión desde el archivo de configuración.
+
+
+        ' Leer la cadena de conexión desde el archivo de configuración.
         Dim connectionString As String = ConfigurationManager.ConnectionStrings("MyConnectionString").ConnectionString
 
         ' Crear la conexión con la cadena de conexión leída.
@@ -369,7 +370,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.docente_id, al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia, al_docentes.contratado 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -391,6 +392,7 @@ Public Class Form1
             And (AL_DOCENTES.Docente_ID = @DocenteId OR @DocenteId IS NULL)
             And (al_comisiones.carrera_id = @CarreraId OR @CarreraId IS NULL)
             GROUP BY
+    al_docentes.docente_id,
     al_docentes.combo,
     AL_PLANES_EST_CARRE.Combo,
     al_turnos.Descripcion,
@@ -399,9 +401,7 @@ Public Class Form1
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
-    tg_tipos_documento.nombre_abr,
-    al_docentes.numdoc,
-    tg_sexos.abreviatura
+    al_docentes.contratado
     order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
@@ -442,7 +442,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.docente_id, al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia, al_docentes.contratado 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -464,6 +464,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
+    al_docentes.docente_id,
     al_docentes.combo,
     AL_PLANES_EST_CARRE.Combo,
     al_turnos.Descripcion,
@@ -472,9 +473,7 @@ Public Class Form1
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
-    tg_tipos_documento.nombre_abr,
-    al_docentes.numdoc,
-    tg_sexos.abreviatura
+    al_docentes.contratado
     order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
@@ -514,7 +513,7 @@ Public Class Form1
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
 
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.docente_id,al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia, al_docentes.contratado  
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -537,6 +536,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
+    al_docentes.docente_id,
     al_docentes.combo,
     AL_PLANES_EST_CARRE.Combo,
     al_turnos.Descripcion,
@@ -545,9 +545,7 @@ Public Class Form1
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
-    tg_tipos_documento.nombre_abr,
-    al_docentes.numdoc,
-    tg_sexos.abreviatura
+    al_docentes.contratado
     order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
@@ -587,8 +585,9 @@ Public Class Form1
             ' Crear un objeto SqlCommand para ejecutar la consulta
             Dim cmdConsulta As New SqlCommand()
             cmdConsulta.Connection = CN
-
-            Dim consultaSQL As String = "Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura 
+            'El de abajo select original
+            'Select DISTINCT al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia,tg_tipos_documento.nombre_abr, al_docentes.numdoc, tg_sexos.abreviatura, al_docentes.contratado
+            Dim consultaSQL As String = "Select DISTINCT al_docentes.docente_id, al_docentes.combo As docente, AL_PLANES_EST_CARRE.Combo As carrera, AL_COMISIONES.Comision_ID, al_comisiones.anio, al_comisiones.division,AL_TURNOS.Descripcion As turno, al_materias.descripcion As materia, tg_dias.nombredia, al_docentes.contratado 
             From al_comisiones_mate
             INNER Join al_comisiones_mate_horarios ON al_comisiones_mate.comisionmate_id = al_comisiones_mate_horarios.comisionmate_id 
             INNER Join al_comisiones ON al_comisiones_mate.comision_id = al_comisiones.comision_id 
@@ -611,6 +610,7 @@ Public Class Form1
             And al_docentes.Docente_ID <> 5130
             And  al_docentes.Docente_ID <> 99999999
             GROUP BY
+    al_docentes.docente_id, 
     al_docentes.combo,
     AL_PLANES_EST_CARRE.Combo,
     al_turnos.Descripcion,
@@ -619,9 +619,7 @@ Public Class Form1
     al_comisiones.division,
     al_materias.descripcion,
     tg_dias.nombredia,
-    tg_tipos_documento.nombre_abr,
-    al_docentes.numdoc,
-    tg_sexos.abreviatura
+    al_docentes.contratado
     order by carrera asc, anio asc,Division asc ,turno asc, nombreDia asc;"
 
 
@@ -660,6 +658,7 @@ Public Class Form1
         Dim dataTable As New DataTable("DatosReporte")
 
         ' Agregar columnas al DataTable
+        dataTable.Columns.Add("docenteId")
         dataTable.Columns.Add("docente")
         dataTable.Columns.Add("carrera")
         dataTable.Columns.Add("Comision_ID")
@@ -668,8 +667,7 @@ Public Class Form1
         dataTable.Columns.Add("turno")
         dataTable.Columns.Add("materia")
         dataTable.Columns.Add("dia")
-        dataTable.Columns.Add("numdoc")
-        dataTable.Columns.Add("sexo")
+        dataTable.Columns.Add("contratado")
 
         Try
             ' Verificar si se seleccionaron filas
@@ -677,16 +675,16 @@ Public Class Form1
                 For Each row As DataGridViewRow In DataGridView1.SelectedRows
                     ' Obtener los valores de las celdas y agregar una nueva fila al DataTable
                     Dim newRow As DataRow = dataTable.NewRow()
-                    newRow("docente") = row.Cells(0).Value.ToString()
-                    newRow("carrera") = row.Cells(1).Value.ToString()
-                    newRow("Comision_ID") = row.Cells(2).Value.ToString()
-                    newRow("anio") = row.Cells(3).Value.ToString()
-                    newRow("division") = row.Cells(4).Value.ToString()
-                    newRow("turno") = row.Cells(5).Value.ToString()
-                    newRow("materia") = row.Cells(6).Value.ToString()
-                    newRow("dia") = row.Cells(7).Value.ToString()
-                    newRow("numdoc") = row.Cells(8).Value.ToString()
-                    newRow("sexo") = row.Cells(9).Value.ToString()
+                    newRow("docenteId") = row.Cells(0).Value.ToString()
+                    newRow("docente") = row.Cells(1).Value.ToString()
+                    newRow("carrera") = row.Cells(2).Value.ToString()
+                    newRow("Comision_ID") = row.Cells(3).Value.ToString()
+                    newRow("anio") = row.Cells(4).Value.ToString()
+                    newRow("division") = row.Cells(5).Value.ToString()
+                    newRow("turno") = row.Cells(6).Value.ToString()
+                    newRow("materia") = row.Cells(7).Value.ToString()
+                    newRow("dia") = row.Cells(8).Value.ToString()
+                    newRow("contratado") = row.Cells(9).Value.ToString()
                     ' Agregar el resto de los valores de las celdas al newRow según las columnas definidas
 
                     ' Agregar newRow al DataTable
