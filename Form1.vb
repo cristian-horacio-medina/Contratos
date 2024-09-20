@@ -1,4 +1,4 @@
-﻿Imports System.Configuration
+Imports System.Configuration
 Imports System.Data.Sql
 Imports System.Data.SqlClient
 

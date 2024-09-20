@@ -1,4 +1,4 @@
-﻿Imports Microsoft.Reporting.WinForms
+Imports Microsoft.Reporting.WinForms
 Imports Contratos.Form1
 Imports System.Net.Mime.MediaTypeNames
 Imports System.Data.Common
@@ -158,7 +158,9 @@ Public Class Form3
         Me.Close()
     End Sub
 
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
 
+    End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 
